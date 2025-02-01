@@ -23,7 +23,7 @@ public class Player {
 	// Metodi per aggiornare la posizione del giocatore 
 	public void move(int dy, int screenHeight) {
         // Calcola i limiti superiori e inferiori in base all'altezza della finestra
-        int minY = 30;  // Limite superiore (0 pixel)
+        int minY = 0;  // Limite superiore (0 pixel)
         int maxY = screenHeight - height;  // Limite inferiore (altezza della finestra meno l'altezza del giocatore)
 
         // Aggiorna la posizione solo se non esce dai limiti
