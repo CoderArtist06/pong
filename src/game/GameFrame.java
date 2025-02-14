@@ -10,22 +10,7 @@ public class GameFrame extends JFrame {
 
     public GameFrame() {
         GamePanel gamePanel = new GamePanel();
-        KeyHandler keyHandler = new KeyHandler();
-        gamePanel.addKeyListener(keyHandler);
         gamePanel.setFocusable(true);
-
-        // Passa il keyHandler al player
-        Player player = new Player(0, 0, 20, 100, "Player");
-        player.setKeyHandler(keyHandler);
-        gamePanel.addComponentListener(new java.awt.event.ComponentAdapter() {
-            @Override
-            public void componentResized(java.awt.event.ComponentEvent e) {
-                int X = gamePanel.getWidth() - 50;
-                int Y = (gamePanel.getHeight() / 2) - 35;
-                player.setX(X);
-                player.setY(Y);
-            }
-        });
         
         setTitle("Pong");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
