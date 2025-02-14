@@ -4,50 +4,65 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-
 import javax.swing.JPanel;
 
-public class GamePanel extends JPanel {
+public class GamePanel extends JPanel implements Runnable {
 
     private Player player;
+    private KeyHandler keyHandler;
+    private Thread gameThread;
+    private final int FPS = 60;
 
     public GamePanel() {
         setFocusable(true);
         requestFocusInWindow();
-        setBackground(Color.BLACK); // Imposta lo sfondo
-        
-        // Inizializzazione giocatore con posizione predefinita (aggiornata dopo il resize)
+        setBackground(Color.BLACK);
+
+        keyHandler = new KeyHandler(); // Creiamo il gestore input
+        addKeyListener(keyHandler);   // Aggiungiamo il KeyListener
+
         player = new Player(0, 0, 20, 100, "Player");
-
-        addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyPressed(KeyEvent e) {
-                int keyCode = e.getKeyCode();
-                int dy = 0;
-
-                if (keyCode == KeyEvent.VK_UP) {
-                    dy = -5;
-                } else if (keyCode == KeyEvent.VK_DOWN) {
-                    dy = 5;
-                }
-
-                player.move(dy, getHeight());
-                repaint();
-            }
-        });
+        player.setKeyHandler(keyHandler); // Passiamo il KeyHandler al Player
 
         addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
-                int X = getWidth() - 50; // Posiziona il player a destra
+                int X = getWidth() - 50;
                 int Y = (getHeight() / 2) - 35;
                 player.setX(X);
                 player.setY(Y);
-                repaint();
             }
         });
+    }
+
+    public void startGameThread() {
+        gameThread = new Thread(this);
+        gameThread.start();
+    }
+
+    @Override
+    public void run() {
+        double drawInterval = 1000000000.0 / FPS;
+        double nextDrawTime = System.nanoTime() + drawInterval;
+
+        while (gameThread != null) {
+            update();
+            repaint();
+
+            try {
+                double remainingTime = (nextDrawTime - System.nanoTime()) / 1000000;
+                if (remainingTime > 0) {
+                    Thread.sleep((long) remainingTime);
+                }
+                nextDrawTime += drawInterval;
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void update() {
+        player.update(getHeight()); // Il player si aggiorna ogni frame
     }
 
     @Override
