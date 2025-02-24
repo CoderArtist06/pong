@@ -17,11 +17,11 @@ public class KeyHandler implements KeyListener {
         int keyCode = e.getKeyCode();
         if (keyCode == KeyEvent.VK_UP) {
             upPressed = true;
-            System.out.println("UP premuto");
+            // System.out.println("UP premuto");
         }
         if (keyCode == KeyEvent.VK_DOWN) {
             downPressed = true;
-            System.out.println("DOWN premuto");
+            // System.out.println("DOWN premuto");
         }
     }
 
@@ -30,11 +30,11 @@ public class KeyHandler implements KeyListener {
         int keyCode = e.getKeyCode();
         if (keyCode == KeyEvent.VK_UP) {
             upPressed = false;
-            System.out.println("UP rilasciato");
+            // System.out.println("UP rilasciato");
         }
         if (keyCode == KeyEvent.VK_DOWN) {
             downPressed = false;
-            System.out.println("DOWN rilasciato");
+            // System.out.println("DOWN rilasciato");
         }
     }
 

@@ -6,7 +6,7 @@ import java.awt.Graphics;
 public class Player {
     private int x, y, width, height;
     private String name;
-    private final int speed = 8; // Velocità aumentata
+    private final int speed = 6; // Velocità aumentata
     private KeyHandler keyHandler;
 
     public Player(int x, int y, int width, int height, String name) {

@@ -14,14 +14,14 @@ public class GameFrame extends JFrame {
         
         setTitle("Pong");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLayout(new BorderLayout());
+        //setLayout(new BorderLayout());// Attualmente non utilizzato
         setSize(683, 384);
-        setLocationRelativeTo(null);
+        setLocationRelativeTo(null); // Stampa la finestra al centro dello schermo
         setIconImage(new ImageIcon("./img/icona.png").getImage());
         setVisible(true);
         
         add(gamePanel);
-        gamePanel.startGameThread();
+        gamePanel.startGameThread();// Fa partire il Thread principale del gioco
     }
     
 }

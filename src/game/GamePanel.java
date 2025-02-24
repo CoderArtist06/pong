@@ -9,6 +9,7 @@ import javax.swing.JPanel;
 public class GamePanel extends JPanel implements Runnable {
 
     private Player player;
+    private Ball ball;
     private KeyHandler keyHandler;
     private Thread gameThread;
     private final int FPS = 60;
@@ -18,19 +19,27 @@ public class GamePanel extends JPanel implements Runnable {
         requestFocusInWindow();
         setBackground(Color.BLACK);
 
-        keyHandler = new KeyHandler(); // Creiamo il gestore input
+        keyHandler = new KeyHandler(); // Gestore input player
         addKeyListener(keyHandler);   // Aggiungiamo il KeyListener
 
         player = new Player(0, 0, 20, 100, "Player");
         player.setKeyHandler(keyHandler); // Passiamo il KeyHandler al Player
 
+        ball = new Ball(getWidth() / 2, getHeight() / 2);
+
         addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
                 int X = getWidth() - 50;
-                int Y = (getHeight() / 2) - 35;
+                int Yplayer = (getHeight() / 2) - 35;
                 player.setX(X);
-                player.setY(Y);
+                player.setY(Yplayer);
+
+                // Centra la pallina quando la finestra viene ridimensionata
+                int centerX = (getWidth() / 2) - (ball.getRadius() / 2);
+                int centerY = (getHeight() / 2) - (ball.getRadius() / 2);
+                ball.setX(centerX);
+                ball.setY(centerY);
             }
         });
     }
@@ -63,11 +72,13 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void update() {
         player.update(getHeight()); // Il player si aggiorna ogni frame
+        ball.update(getWidth(), getHeight()); // La pallina si aggiorna ogni frame
     }
 
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         player.draw(g);
+        ball.draw(g); // Disegna la pallina
     }
 }
